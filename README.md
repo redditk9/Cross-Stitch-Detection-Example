@@ -20,19 +20,27 @@ How It Works (Overview)
 ---
 Step 1. The original image is thresholded to remove noise.  
 
-`Image<Gray, byte> cvThreshold = cvOriginal.ThresholdBinaryInv(new Gray(thresholdLevel), new Gray(255));`
+```csharp
+Image<Gray, byte> cvThreshold = cvOriginal.ThresholdBinaryInv(new Gray(thresholdLevel), new Gray(255));
+```
 
 Step 2. Normalized cross correlation is used to detect likely match locations.  
 
-`Image<Gray, float> cvNormXCorrelation = cvThreshold.MatchTemplate(cvTemplate, TemplateMatchingType.CcoeffNormed);`
+```csharp
+Image<Gray, float> cvNormXCorrelation = cvThreshold.MatchTemplate(cvTemplate, TemplateMatchingType.CcoeffNormed);
+```
 
 Step 3. The cross correlation result is thresholded to create a binary image of high probability locations.  
 
-`Image<Gray, float> cvDetectionsFloat = cvNormXCorrelation.ThresholdBinary(new Gray(minimumCorrelationCoefficient), new Gray(255.0f));`
+```csharp
+Image<Gray, float> cvDetectionsFloat = cvNormXCorrelation.ThresholdBinary(new Gray(minimumCorrelationCoefficient), new Gray(255.0f));
+```
 
 Step 4. A BLOB detector is used to find the centers of each high probability location.  
 
-`SimpleBlobDetector blobDetector = new SimpleBlobDetector(blobDetectorParams);
-MKeyPoint[] detectedLocations = blobDetector.Detect(cvDetections);`
+```csharp
+SimpleBlobDetector blobDetector = new SimpleBlobDetector(blobDetectorParams);
+MKeyPoint[] detectedLocations = blobDetector.Detect(cvDetections);
+```
 
 Done!
